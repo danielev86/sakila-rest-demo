@@ -8,6 +8,7 @@ import com.firm.project.sakilarestdemo.controller.dto.ActorDTO;
 public interface IActorService extends Serializable {
 
 	List<ActorDTO> getAllActor();
-
+	
+	List<ActorDTO> getAllActorPagination(Integer page, Integer itemPerPage);
 
 }

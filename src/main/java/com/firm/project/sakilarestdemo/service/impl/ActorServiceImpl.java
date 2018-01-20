@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.firm.project.sakilarestdemo.backend.IActorDAO;
 import com.firm.project.sakilarestdemo.backend.bo.ActorBO;
+import com.firm.project.sakilarestdemo.backend.utility.MyBatisUtility;
 import com.firm.project.sakilarestdemo.controller.dto.ActorDTO;
 import com.firm.project.sakilarestdemo.converter.ActorDTOConverter;
 import com.firm.project.sakilarestdemo.service.IActorService;
@@ -24,6 +25,9 @@ public class ActorServiceImpl implements IActorService {
 	@Autowired
 	private ActorDTOConverter actorDTOConverter;
 	
+	@Autowired
+	private MyBatisUtility mybatiUtility;
+	
 	@Override
 	public List<ActorDTO> getAllActor(){
 		List<ActorDTO> lstResult = new ArrayList<>();
@@ -32,6 +36,20 @@ public class ActorServiceImpl implements IActorService {
 		
 		mapActorDTOList(lstActor, lstResult);
 	
+		return lstResult;
+	}
+	
+	public List<ActorDTO> getAllActorPagination(Integer page, Integer itemPerPage){
+		List<ActorBO> lstActor = null;
+		List<ActorDTO> lstResult = new ArrayList<>();
+		
+		if (page != null && page != 0 && itemPerPage != null && itemPerPage!=0) {
+			lstActor = actorManager.findAllActorPagination(mybatiUtility.buildPaginationFilter(page, itemPerPage));
+		}else {
+			lstActor = new ArrayList<>();
+		}
+		
+		mapActorDTOList(lstActor, lstResult);
 		return lstResult;
 	}
 	

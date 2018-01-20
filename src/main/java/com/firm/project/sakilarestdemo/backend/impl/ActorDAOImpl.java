@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.firm.project.sakilarestdemo.backend.IActorDAO;
 import com.firm.project.sakilarestdemo.backend.bo.ActorBO;
+import com.firm.project.sakilarestdemo.backend.filter.PaginatorFilterBean;
 
 import java.util.List;
 
@@ -20,6 +21,11 @@ public class ActorDAOImpl implements IActorDAO {
 	@Override
 	public List<ActorBO> findAllActor(){
 		List<ActorBO> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findAllActor");
+		return lstActor;
+	}
+	
+	public List<ActorBO> findAllActorPagination(PaginatorFilterBean filter){
+		List<ActorBO> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findAllActorPagination", filter);
 		return lstActor;
 	}
 

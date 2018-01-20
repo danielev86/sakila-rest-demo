@@ -15,5 +15,15 @@
 		FROM
 			ACTOR
 	</select>
+	
+	<select id="findAllActorPagination" resultMap="actorResultData" parameterType="com.firm.project.sakilarestdemo.backend.filter.PaginatorFilterBean">
+		<![CDATA[
+			SELECT 
+				*
+			FROM 
+				ACTOR
+			LIMIT #{offSet},#{itemPerPage}
+		]]>
+	</select>
 
 </mapper>

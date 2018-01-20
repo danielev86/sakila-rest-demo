@@ -8,6 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.firm.project.sakilarestdemo.controller.dto.ActorDTO;
@@ -47,4 +48,25 @@ public class ActorController implements Serializable {
 		ResponseEntityBuilder<List<ActorDTO>> responseEntityBuilder = new ResponseEntityBuilder<>();
 		return responseEntityBuilder.buildResponseEntiry(checkResponse, lstActor);	
 	}
+	
+	@RequestMapping(value="/getAllActorPaginator", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, params= {"page", "itemPerPage"})
+	public ResponseEntity<Response<List<ActorDTO>>> getAllActorPaginator(@RequestParam("page") Integer page, @RequestParam("itemPerPage") Integer itemPerPage){
+		List<ActorDTO> lstActor = null;
+		Boolean checkResponse = null;
+		
+		try {
+			lstActor = actorService.getAllActorPagination(page, itemPerPage);
+			checkResponse = Boolean.TRUE;
+		}catch(Exception e) {
+			logger.error(e.getMessage(),e);
+			lstActor = new ArrayList<>();
+			checkResponse = Boolean.FALSE;
+		}
+		
+		
+		ResponseEntityBuilder<List<ActorDTO>> responseEntityBuilder = new ResponseEntityBuilder<>();
+		return responseEntityBuilder.buildResponseEntiry(checkResponse, lstActor);	
+	}
+	
+	
 }
