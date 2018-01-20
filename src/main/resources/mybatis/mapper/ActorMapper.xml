@@ -1,0 +1,19 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="mybatis.mapper.ActorMapper">
+	<resultMap type="com.firm.project.sakilarestdemo.backend.bo.ActorBO" id="actorResultData">
+		<result column="actor_id" property="actorId"/>
+		<result column="first_name" property="firstName"/>
+		<result column="last_name" property="lastName"/>
+		<result column="last_update" property="lastUpdate"/>
+	</resultMap>	
+	<select id="findAllActor" resultMap="actorResultData">
+		SELECT
+			*
+		FROM
+			ACTOR
+	</select>
+
+</mapper>
