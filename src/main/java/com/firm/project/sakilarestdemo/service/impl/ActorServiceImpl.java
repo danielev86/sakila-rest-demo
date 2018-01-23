@@ -1,10 +1,14 @@
 package com.firm.project.sakilarestdemo.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
 import com.firm.project.sakilarestdemo.backend.IActorDAO;
@@ -23,22 +27,27 @@ public class ActorServiceImpl implements IActorService {
 	private IActorDAO actorManager;
 	
 	@Autowired
-	private ActorDTOConverter actorDTOConverter;
+	@Qualifier(value="conversionService")
+	private ConversionService converter;
 	
 	@Autowired
 	private MyBatisUtility mybatiUtility;
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public List<ActorDTO> getAllActor(){
 		List<ActorDTO> lstResult = new ArrayList<>();
 		
 		List<ActorBO> lstActor = actorManager.findAllActor();
 		
-		mapActorDTOList(lstActor, lstResult);
+		lstResult = (List<ActorDTO>) converter.convert(lstActor
+				, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(ActorBO.class))
+				, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(ActorDTO.class)));
 	
 		return lstResult;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<ActorDTO> getAllActorPagination(Integer page, Integer itemPerPage){
 		List<ActorBO> lstActor = null;
 		List<ActorDTO> lstResult = new ArrayList<>();
@@ -49,15 +58,10 @@ public class ActorServiceImpl implements IActorService {
 			lstActor = new ArrayList<>();
 		}
 		
-		mapActorDTOList(lstActor, lstResult);
+		lstResult = (List<ActorDTO>) converter.convert(lstActor
+				, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(ActorBO.class))
+				, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(ActorDTO.class)));
 		return lstResult;
-	}
-	
-	private void mapActorDTOList(List<ActorBO> lstActor, List<ActorDTO> lstResult) {
-		
-		if (CollectionUtils.isNotEmpty(lstActor)) {
-			lstActor.forEach(actor -> lstResult.add(actorDTOConverter.convert(actor)));
-		}
 	}
 
 }
