@@ -10,5 +10,7 @@ public interface IActorService extends Serializable {
 	List<ActorDTO> getAllActor();
 	
 	List<ActorDTO> getAllActorPagination(Integer page, Integer itemPerPage);
+	
+	List<ActorDTO> getActorWithAllMovieDetail();
 
 }

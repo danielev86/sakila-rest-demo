@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         
 <mapper namespace="mybatis.mapper.ActorMapper">
-	<resultMap type="com.firm.project.sakilarestdemo.backend.bo.ActorBO" id="actorResultData">
+	<resultMap type="com.firm.project.sakilarestdemo.backend.model.Actor" id="actorResultData">
 		<result column="actor_id" property="actorId"/>
 		<result column="first_name" property="firstName"/>
 		<result column="last_name" property="lastName"/>
@@ -24,6 +24,47 @@
 				ACTOR
 			LIMIT #{offSet},#{itemPerPage}
 		]]>
+	</select>
+	
+	<!-- Actor with film detail -->
+	<resultMap type="com.firm.project.sakilarestdemo.backend.model.Actor" id="actorMovieResultData">
+		<result column="first_name" property="firstName"/>
+		<result column="last_name" property="lastName"/>
+		<collection property="films" resultMap="filmDetailsResultData"/>
+	</resultMap>
+	
+	<resultMap type="com.firm.project.sakilarestdemo.backend.model.Film" id="filmDetailsResultData">
+		<result column="title" property="title"/>
+		<result column="description" property="description"/>
+		<result column="year" property="year"/>
+		<result column="rental_duration" property="rentalDuration"/>
+		<result column="length" property="length"/>
+		<result column="replacement_cost" property="replacementCost"/>
+	</resultMap>
+	
+	<select id="findActorWithAllFilm" resultMap="actorMovieResultData">
+		<![CDATA[
+			SELECT
+				a.first_name as first_name,
+				a.last_name as last_name,
+				f.title as title,
+				f.description as description,
+				f.release_year as year,
+				f.rental_duration as rental_duration,
+				f.length as length,
+				f.replacement_cost as replacement_cost
+				
+			FROM
+				actor a
+			JOIN
+				film_actor fa
+			ON fa.actor_id = a.actor_id
+			JOIN 
+				film f
+			ON fa.film_id = f.film_id
+
+		]]>
+
 	</select>
 
 </mapper>

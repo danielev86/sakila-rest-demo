@@ -2,6 +2,7 @@ package com.firm.project.sakilarestdemo.controller.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 public class ActorDTO implements Serializable {
 	
@@ -14,6 +15,8 @@ public class ActorDTO implements Serializable {
 	private String lastName;
 	
 	private Date lastUpdate;
+	
+	private List<FilmDTO> films;
 
 	public Long getActorId() {
 		return actorId;
@@ -47,4 +50,11 @@ public class ActorDTO implements Serializable {
 		this.lastUpdate = lastUpdate;
 	}
 
+	public List<FilmDTO> getFilms() {
+		return films;
+	}
+
+	public void setFilms(List<FilmDTO> films) {
+		this.films = films;
+	}
 }

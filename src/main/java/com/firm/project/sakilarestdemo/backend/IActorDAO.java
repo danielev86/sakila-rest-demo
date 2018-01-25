@@ -3,13 +3,15 @@ package com.firm.project.sakilarestdemo.backend;
 import java.io.Serializable;
 import java.util.List;
 
-import com.firm.project.sakilarestdemo.backend.bo.ActorBO;
 import com.firm.project.sakilarestdemo.backend.filter.PaginatorFilterBean;
+import com.firm.project.sakilarestdemo.backend.model.Actor;
 
 public interface IActorDAO extends Serializable {
 
-	List<ActorBO> findAllActor();
+	List<Actor> findAllActor();
 	
-	List<ActorBO> findAllActorPagination(PaginatorFilterBean filter);
+	List<Actor> findAllActorPagination(PaginatorFilterBean filter);
+	
+	List<Actor> findActorWithAllFilm();
 
 }

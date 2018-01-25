@@ -4,5 +4,6 @@
 <configuration>
     <mappers>
         <mapper resource="mybatis/mapper/ActorMapper.xml"/>
+        <mapper resource="mybatis/mapper/FilmMapper.xml"/>
     </mappers>
 </configuration>

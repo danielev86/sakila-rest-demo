@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.firm.project.sakilarestdemo.backend.IActorDAO;
-import com.firm.project.sakilarestdemo.backend.bo.ActorBO;
 import com.firm.project.sakilarestdemo.backend.filter.PaginatorFilterBean;
+import com.firm.project.sakilarestdemo.backend.model.Actor;
 
 import java.util.List;
 
@@ -19,13 +19,18 @@ public class ActorDAOImpl implements IActorDAO {
 	private SqlSession sqlSession;
 	
 	@Override
-	public List<ActorBO> findAllActor(){
-		List<ActorBO> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findAllActor");
+	public List<Actor> findAllActor(){
+		List<Actor> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findAllActor");
 		return lstActor;
 	}
 	
-	public List<ActorBO> findAllActorPagination(PaginatorFilterBean filter){
-		List<ActorBO> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findAllActorPagination", filter);
+	public List<Actor> findAllActorPagination(PaginatorFilterBean filter){
+		List<Actor> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findAllActorPagination", filter);
+		return lstActor;
+	}
+	
+	public List<Actor> findActorWithAllFilm(){
+		List<Actor> lstActor = sqlSession.selectList("mybatis.mapper.ActorMapper.findActorWithAllFilm");
 		return lstActor;
 	}
 

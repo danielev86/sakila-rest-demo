@@ -67,6 +67,22 @@ public class ActorController implements Serializable {
 		ResponseEntityBuilder<List<ActorDTO>> responseEntityBuilder = new ResponseEntityBuilder<>();
 		return responseEntityBuilder.buildResponseEntiry(checkResponse, lstActor);	
 	}
+
+	@RequestMapping(value="/getActorWithAllMovieDetail", method=RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Response<List<ActorDTO>>> getActorWithAllMovieDetail(){
+		List<ActorDTO> lstActor = null;
+		Boolean checkResponse = null;
+		try {
+			lstActor = actorService.getActorWithAllMovieDetail();
+			checkResponse = Boolean.TRUE;
+		}catch(Exception e) {
+			logger.error(e.getMessage(),e);
+			lstActor = new ArrayList<>();
+			checkResponse = Boolean.FALSE;
+		}
+		ResponseEntityBuilder<List<ActorDTO>> responseEntityBuilder = new ResponseEntityBuilder<>();
+		return responseEntityBuilder.buildResponseEntiry(checkResponse, lstActor);
+	}
 	
 	
 }

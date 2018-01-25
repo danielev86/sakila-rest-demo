@@ -12,7 +12,7 @@ import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.stereotype.Service;
 
 import com.firm.project.sakilarestdemo.backend.IActorDAO;
-import com.firm.project.sakilarestdemo.backend.bo.ActorBO;
+import com.firm.project.sakilarestdemo.backend.model.Actor;
 import com.firm.project.sakilarestdemo.backend.utility.MyBatisUtility;
 import com.firm.project.sakilarestdemo.controller.dto.ActorDTO;
 import com.firm.project.sakilarestdemo.converter.ActorDTOConverter;
@@ -38,10 +38,10 @@ public class ActorServiceImpl implements IActorService {
 	public List<ActorDTO> getAllActor(){
 		List<ActorDTO> lstResult = new ArrayList<>();
 		
-		List<ActorBO> lstActor = actorManager.findAllActor();
+		List<Actor> lstActor = actorManager.findAllActor();
 		
 		lstResult = (List<ActorDTO>) converter.convert(lstActor
-				, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(ActorBO.class))
+				, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(Actor.class))
 				, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(ActorDTO.class)));
 	
 		return lstResult;
@@ -49,7 +49,7 @@ public class ActorServiceImpl implements IActorService {
 	
 	@SuppressWarnings("unchecked")
 	public List<ActorDTO> getAllActorPagination(Integer page, Integer itemPerPage){
-		List<ActorBO> lstActor = null;
+		List<Actor> lstActor = null;
 		List<ActorDTO> lstResult = new ArrayList<>();
 		
 		if (page != null && page != 0 && itemPerPage != null && itemPerPage!=0) {
@@ -59,8 +59,22 @@ public class ActorServiceImpl implements IActorService {
 		}
 		
 		lstResult = (List<ActorDTO>) converter.convert(lstActor
-				, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(ActorBO.class))
+				, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(Actor.class))
 				, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(ActorDTO.class)));
+		return lstResult;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<ActorDTO> getActorWithAllMovieDetail(){
+		List<Actor> lstActor = new ArrayList<>();
+		List<ActorDTO> lstResult = new ArrayList<>();	
+		lstActor = actorManager.findActorWithAllFilm();
+		
+		if (CollectionUtils.isNotEmpty(lstActor)) {
+			lstResult = (List<ActorDTO>) converter.convert(lstActor
+					, TypeDescriptor.collection(Collection.class, TypeDescriptor.valueOf(Actor.class))
+					, TypeDescriptor.collection(List.class, TypeDescriptor.valueOf(ActorDTO.class)));
+		}
 		return lstResult;
 	}
 
