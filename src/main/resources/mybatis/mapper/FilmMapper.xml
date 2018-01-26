@@ -2,5 +2,62 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.mapper.FilmMapper">
-
+	
+	<resultMap type="com.firm.project.sakilarestdemo.backend.model.Film" id="filmDataResult">
+		<result property="filmId" column="film_id"/>
+		<result property="title" column="title"/>
+		<result property="description" column="description"/>
+		<result property="year" column="year"/>
+		<result property="rentalDuration" column="rentalDuration"/>
+		<result property="rentalRate" column="rental_rate"/>
+		<result property="length" column="length"/>
+		<result property="replacementCost" column="replacement_cost"/>
+	</resultMap>
+	
+	<select id="findMoviesByCategoryAndActor" resultMap="filmDataResult" parameterType="com.firm.project.sakilarestdemo.backend.filter.FilmFilterBean">
+		<![CDATA[
+			SELECT
+				f.film_id as film_id,
+				f.title as title,
+				f.description as description,
+				f.release_year as year,
+				f.rental_duration as rental_duration,
+				f.rental_rate as rental_rate,
+				f.length as length,
+				f.replacement_cost as replacement_cost
+			FROM
+				film f
+			JOIN
+				film_category fc
+			ON fc.film_id=f.film_id
+		]]>
+		<where>
+			<if test="categoryId!=null">
+				AND fc.category_id=#{categoryId}
+			</if>
+			<if test="firstName!=null or lastName !=null">
+				AND f.film_id IN 
+					(
+						SELECT
+							fa.film_id
+						FROM
+							film_actor fa
+						JOIN
+							actor a
+						ON
+							fa.actor_id=a.actor_id
+						<where>
+							<if test="firstName!=null">
+								AND lower(a.first_name)=#{firstName}
+							</if>
+							<if test="lastName!=null">
+								AND lower(a.last_name)=#{lastName}
+							</if>
+						
+						
+						</where>
+					)
+			</if>
+		</where>
+	</select>
 </mapper>

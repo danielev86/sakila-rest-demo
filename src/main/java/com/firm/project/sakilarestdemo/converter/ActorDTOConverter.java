@@ -24,6 +24,7 @@ public class ActorDTOConverter implements Converter<Actor, ActorDTO>{
 	private ConversionService conversionService;
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public ActorDTO convert(Actor source) {
 		ActorDTO target = new ActorDTO();
 		target.setActorId(source.getActorId());
